@@ -12,6 +12,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,7 +82,7 @@ public class DriveQuickstart {
 
         // Print the names and IDs for up to 10 files.
         FileList result = service.files().list()
-                .setPageSize(10)
+                .setPageSize(100)
                 .setFields("nextPageToken, files(id, name)")
                 .execute();
         List<File> files = result.getFiles();
