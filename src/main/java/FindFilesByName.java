@@ -36,7 +36,7 @@ public class FindFilesByName {
 
     public static void main(String[] args) throws IOException, GeneralSecurityException {
 
-        List<File> rootGoogleFolders = getGoogleFilesByName("test_");
+        List<File> rootGoogleFolders = getGoogleFilesByName("newfile");
         for (File folder : rootGoogleFolders) {
 
             System.out.println("Mime Type: " + folder.getMimeType() + " --- Name: " + folder.getName() + " --- Id: " + folder.getId());

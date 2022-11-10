@@ -39,13 +39,13 @@ public class ShareGoogleFile {
 
     public static void main(String[] args) throws IOException, GeneralSecurityException {
 
-        String googleFileId1 = "1943UYkXjLloppLAQBJDzx6QAHuCwUYrVDPNf-2wfvwA";
-        String googleEmail = "test.o7planning@gmail.com";
+//        String googleFileId1 = "1943UYkXjLloppLAQBJDzx6QAHuCwUYrVDPNf-2wfvwA";
+//        String googleEmail = "test.o7planning@gmail.com";
+//
+//        // Share for a User
+//        createPermissionForEmail(googleFileId1, googleEmail);
 
-        // Share for a User
-        createPermissionForEmail(googleFileId1, googleEmail);
-
-        String googleFileId2 = "1N3axhWBquqqw1-X-kLOcIrUFR3a0rGVbwMN5cLZOJCw";
+        String googleFileId2 = "1Pv0VmjVkJIoEDvxkBwWfaAdIiwgQNm2s";
 
         // Share for everyone
         createPublicPermission(googleFileId2);

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CreateFolder {
 
-    public static final File createGoogleFolder(String folderIdParent, String folderName) throws IOException, GeneralSecurityException {
+    public static File createGoogleFolder(String folderIdParent, String folderName) throws IOException, GeneralSecurityException {
 
         File fileMetadata = new File();
 
@@ -16,17 +16,13 @@ public class CreateFolder {
         fileMetadata.setMimeType("application/vnd.google-apps.folder");
 
         if (folderIdParent != null) {
-            List<String> parents = Arrays.asList(folderIdParent);
+            List<String> parents = List.of(folderIdParent);
 
             fileMetadata.setParents(parents);
         }
         Drive driveService = DriveQuickstart.createDriveService();
 
-        // Create a Folder.
-        // Returns File object with id & name fields will be assigned values
-        File file = driveService.files().create(fileMetadata).setFields("id, name").execute();
-
-        return file;
+        return driveService.files().create(fileMetadata).setFields("id, name").execute();
     }
 
     public static void main(String[] args) throws IOException, GeneralSecurityException {

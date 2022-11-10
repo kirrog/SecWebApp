@@ -66,7 +66,7 @@ public class CreateGoogleFile {
 
         // Create Google File:
 
-        File googleFile = createGoogleFile(null, "text/plain", "newfile.txt", uploadFile);
+        File googleFile = createGoogleFile("1HwZepYb-cTRtMtwZ0hkQ3I3XAnnRG8FS", "text/plain", "newfile_2.txt", uploadFile);
 
         System.out.println("Created Google file!");
         System.out.println("WebContentLink: " + googleFile.getWebContentLink());
