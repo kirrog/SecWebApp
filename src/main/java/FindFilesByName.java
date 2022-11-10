@@ -3,15 +3,16 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FindFilesByName {
 
     // com.google.api.services.drive.model.File
-    public static final List<File> getGoogleFilesByName(String fileNameLike) throws IOException {
+    public static final List<File> getGoogleFilesByName(String fileNameLike) throws IOException, GeneralSecurityException {
 
-        Drive driveService = GoogleDriveUtils.getDriveService();
+        Drive driveService = DriveQuickstart.createDriveService();
 
         String pageToken = null;
         List<File> list = new ArrayList<File>();
@@ -33,12 +34,12 @@ public class FindFilesByName {
         return list;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, GeneralSecurityException {
 
-        List<File> rootGoogleFolders = getGoogleFilesByName("u");
+        List<File> rootGoogleFolders = getGoogleFilesByName("test_");
         for (File folder : rootGoogleFolders) {
 
-            System.out.println("Mime Type: " + folder.getMimeType() + " --- Name: " + folder.getName());
+            System.out.println("Mime Type: " + folder.getMimeType() + " --- Name: " + folder.getName() + " --- Id: " + folder.getId());
         }
 
         System.out.println("Done!");

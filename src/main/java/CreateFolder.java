@@ -2,12 +2,13 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 
 public class CreateFolder {
 
-    public static final File createGoogleFolder(String folderIdParent, String folderName) throws IOException {
+    public static final File createGoogleFolder(String folderIdParent, String folderName) throws IOException, GeneralSecurityException {
 
         File fileMetadata = new File();
 
@@ -19,7 +20,7 @@ public class CreateFolder {
 
             fileMetadata.setParents(parents);
         }
-        Drive driveService = GoogleDriveUtils.getDriveService();
+        Drive driveService = DriveQuickstart.createDriveService();
 
         // Create a Folder.
         // Returns File object with id & name fields will be assigned values
@@ -28,7 +29,7 @@ public class CreateFolder {
         return file;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, GeneralSecurityException {
 
         // Create a Root Folder
         File folder = createGoogleFolder(null, "TEST-FOLDER");

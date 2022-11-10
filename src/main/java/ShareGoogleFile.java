@@ -2,11 +2,12 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class ShareGoogleFile {
 
     // Public a Google File/Folder.
-    public static Permission createPublicPermission(String googleFileId) throws IOException {
+    public static Permission createPublicPermission(String googleFileId) throws IOException, GeneralSecurityException {
         // All values: user - group - domain - anyone
         String permissionType = "anyone";
         // All values: organizer - owner - writer - commenter - reader
@@ -16,11 +17,11 @@ public class ShareGoogleFile {
         newPermission.setType(permissionType);
         newPermission.setRole(permissionRole);
 
-        Drive driveService = GoogleDriveUtils.getDriveService();
+        Drive driveService = DriveQuickstart.createDriveService();
         return driveService.permissions().create(googleFileId, newPermission).execute();
     }
 
-    public static Permission createPermissionForEmail(String googleFileId, String googleEmail) throws IOException {
+    public static Permission createPermissionForEmail(String googleFileId, String googleEmail) throws IOException, GeneralSecurityException {
         // All values: user - group - domain - anyone
         String permissionType = "user"; // Valid: user, group
         // organizer - owner - writer - commenter - reader
@@ -32,19 +33,19 @@ public class ShareGoogleFile {
 
         newPermission.setEmailAddress(googleEmail);
 
-        Drive driveService = GoogleDriveUtils.getDriveService();
+        Drive driveService = DriveQuickstart.createDriveService();
         return driveService.permissions().create(googleFileId, newPermission).execute();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, GeneralSecurityException {
 
-        String googleFileId1 = "some-google-file-id-1";
+        String googleFileId1 = "1943UYkXjLloppLAQBJDzx6QAHuCwUYrVDPNf-2wfvwA";
         String googleEmail = "test.o7planning@gmail.com";
 
         // Share for a User
         createPermissionForEmail(googleFileId1, googleEmail);
 
-        String googleFileId2 = "some-google-file-id-2";
+        String googleFileId2 = "1N3axhWBquqqw1-X-kLOcIrUFR3a0rGVbwMN5cLZOJCw";
 
         // Share for everyone
         createPublicPermission(googleFileId2);

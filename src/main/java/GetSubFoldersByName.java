@@ -3,6 +3,7 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,9 @@ public class GetSubFoldersByName {
 
     // com.google.api.services.drive.model.File
     public static final List<File> getGoogleSubFolderByName(String googleFolderIdParent, String subFolderName)
-            throws IOException {
+            throws IOException, GeneralSecurityException {
 
-        Drive driveService = GoogleDriveUtils.getDriveService();
+        Drive driveService = DriveQuickstart.createDriveService();
 
         String pageToken = null;
         List<File> list = new ArrayList<File>();
@@ -42,13 +43,13 @@ public class GetSubFoldersByName {
     }
 
     // com.google.api.services.drive.model.File
-    public static final List<File> getGoogleRootFoldersByName(String subFolderName) throws IOException {
+    public static final List<File> getGoogleRootFoldersByName(String subFolderName) throws IOException, GeneralSecurityException {
         return getGoogleSubFolderByName(null, subFolderName);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, GeneralSecurityException {
 
-        List<File> rootGoogleFolders = getGoogleRootFoldersByName("TEST");
+        List<File> rootGoogleFolders = getGoogleRootFoldersByName("opa");
         for (File folder : rootGoogleFolders) {
 
             System.out.println("Folder ID: " + folder.getId() + " --- Name: " + folder.getName());
