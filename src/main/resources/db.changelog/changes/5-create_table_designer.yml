@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: autoclcker
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  remarks: id
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DESIGNER
+                    nullable: false
+                  defaultValue: uuid_generate_v4()
+              - column:
+                  name: ID_OWNER
+                  type: UUID
+                  remarks: fk to refer on table owner
+                  constraints:
+                    - foreignKeyName: FK_DESIGNER_OWNER_ID
+                    - references: OWNER(ID)
+              - column:
+                  name: ALIAS
+                  type: varchar(64)
+                  remarks: alias
+                  constraints:
+                    nullable: false
+            remarks: Designers
+            tableName: designer

@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: autoclcker
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  remarks: id
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_OWNER
+                    nullable: false
+                  autoIncrement: ${autoIncrement}
+              - column:
+                  name: NAME
+                  type: varchar(64)
+                  remarks: name
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PASSWORD_HASH
+                  type: varchar(32)
+                  remarks: password
+                  constraints:
+                    nullable: false
+              - column:
+                  name: AMOUNT_OF_MONEY
+                  type: int
+                  remarks: amount_of_money
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ID_USER
+                  type: UUID
+                  remarks: fk to refer on table users
+                  constraints:
+                    - foreignKeyName: FK_PK_VOICE_USERS_ID
+                    - references: USERS(ID)
+            remarks: Owners
+            tableName: owner

@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: autoclcker
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  remarks: id
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_USERS
+                    nullable: false
+                  autoIncrement: ${autoIncrement}
+              - column:
+                  name: USERNAME
+                  type: varchar(64)
+                  remarks: username
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PASSWORD
+                  type: varchar(32)
+                  remarks: password
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STATUS
+                  type: varchar(256)
+                  remarks: status
+                  constraints:
+                    nullable: false
+            remarks: Users
+            tableName: users

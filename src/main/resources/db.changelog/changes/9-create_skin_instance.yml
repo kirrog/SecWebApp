@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 9
+      author: autoclcker
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  remarks: id
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_SKIN_INSTANCE
+                    nullable: false
+                  autoIncrement: ${autoIncrement}
+              - column:
+                  name: ID_SKIN_TYPE
+                  type: UUID
+                  remarks: fk to refer on table skin_type
+                  constraints:
+                    - foreignKeyName: FK_SKIN_INSTANCE_SKIN_TYPE_ID
+                    - references: SKIN_TYPE(ID)
+              - column:
+                  name: ID_OWNER
+                  type: UUID
+                  remarks: fk to refer on table owner
+                  constraints:
+                    - foreignKeyName: FK_SKIN_INSTANCE_OWNER_ID
+                    - references: OWNER(ID)
+              - column:
+                  name: NFT_TOKEN
+                  type: bigint
+                  remarks: nft_token
+                  constraints:
+                    nullable: false
+            remarks: Skin_instance
+            tableName: skin_instance

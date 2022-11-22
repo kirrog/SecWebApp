@@ -1,21 +1,29 @@
 version: '3.8'
 
 services:
-  psql:
+  db:
     image: postgres
-    container_name: "postgres"
-    ports:
-      - "5432:5432"
+    container_name: "dbspapp"
     env_file: .env
     volumes:
       - .deploy/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 1s
 
   app:
-    container_name: 'hl'
+    container_name: 'spapp'
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '8080:8080'
+      - '8081:8081'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
     depends_on:
-      - psql
+      db:
+        condition: service_healthy

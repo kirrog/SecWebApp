@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: autoclcker
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  remarks: id
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_SKIN_TYPE
+                    nullable: false
+                  defaultValue: uuid_generate_v4()
+              - column:
+                  name: ID_SKIN_CONCEPT
+                  type: UUID
+                  remarks: fk to refer on table skin_concept
+                  constraints:
+                    - foreignKeyName: FK_SKIN_TYPE_SKIN_CONCEPT_ID
+                    - references: SKIN_CONCEPT(ID)
+              - column:
+                  name: COUNT_INSTANCE
+                  type: int
+                  remarks: count_instance
+                  constraints:
+                    nullable: false
+            remarks: Skin_types
+            tableName: skin_type

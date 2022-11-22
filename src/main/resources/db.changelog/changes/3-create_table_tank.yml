@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: autoclcker
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  remarks: id
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_TANK
+                    nullable: false
+                  autoIncrement: ${autoIncrement}
+              - column:
+                  name: TITTLE
+                  type: varchar(256)
+                  remarks: tittle
+                  constraints:
+                    nullable: false
+            remarks: Tanks
+            tableName: tank
