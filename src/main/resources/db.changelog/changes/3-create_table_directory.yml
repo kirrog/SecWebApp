@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 3
-      author: autoclcker
+      author: kirrog
       changes:
         - createTable:
             columns:
@@ -11,14 +11,20 @@ databaseChangeLog:
                   remarks: id
                   constraints:
                     primaryKey: true
-                    primaryKeyName: PK_TANK
+                    primaryKeyName: PK_DIRECTORY
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:
-                  name: TITTLE
+                  name: NAME
                   type: varchar(256)
-                  remarks: tittle
+                  remarks: name
                   constraints:
                     nullable: false
-            remarks: Tanks
-            tableName: tank
+              - column:
+                  name: TOKEN
+                  type: varchar(256)
+                  remarks: token
+                  constraints:
+                    nullable: false
+            remarks: Directory
+            tableName: directory

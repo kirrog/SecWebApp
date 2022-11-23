@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
-      author: autoclcker
+      id: 4
+      author: kirrog
       changes:
         - createTable:
             columns:
@@ -11,33 +11,34 @@ databaseChangeLog:
                   remarks: id
                   constraints:
                     primaryKey: true
-                    primaryKeyName: PK_OWNER
+                    primaryKeyName: PK_DOCUMENT
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:
                   name: NAME
-                  type: varchar(64)
+                  type: varchar(256)
                   remarks: name
                   constraints:
                     nullable: false
               - column:
-                  name: PASSWORD_HASH
-                  type: varchar(32)
-                  remarks: password
+                  name: TOKEN
+                  type: varchar(256)
+                  remarks: token
                   constraints:
                     nullable: false
               - column:
-                  name: AMOUNT_OF_MONEY
-                  type: int
-                  remarks: amount_of_money
-                  constraints:
-                    nullable: false
-              - column:
-                  name: ID_USER
+                  name: DIRECTORY_ID
                   type: UUID
-                  remarks: fk to refer on table users
+                  remarks: fk to refer on table directory
                   constraints:
-                    - foreignKeyName: FK_PK_VOICE_USERS_ID
-                    - references: USERS(ID)
-            remarks: Owners
-            tableName: owner
+                    - foreignKeyName: FK_PK_DIRECTORY_ID
+                    - references: DIRECTORY(ID)
+              - column:
+                  name: USER_ID
+                  type: UUID
+                  remarks: fk to refer on table user
+                  constraints:
+                    - foreignKeyName: FK_PK_USER_ID
+                    - references: USER(ID)
+            remarks: Document
+            tableName: document

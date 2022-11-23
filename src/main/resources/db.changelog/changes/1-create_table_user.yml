@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 1
-      author: autoclcker
+      author: kirrog
       changes:
         - createTable:
             columns:
@@ -11,26 +11,20 @@ databaseChangeLog:
                   remarks: id
                   constraints:
                     primaryKey: true
-                    primaryKeyName: PK_USERS
+                    primaryKeyName: PK_USER
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:
-                  name: USERNAME
+                  name: NAME
                   type: varchar(64)
-                  remarks: username
+                  remarks: name
                   constraints:
                     nullable: false
               - column:
-                  name: PASSWORD
-                  type: varchar(32)
-                  remarks: password
-                  constraints:
-                    nullable: false
-              - column:
-                  name: STATUS
+                  name: TOKEN
                   type: varchar(256)
-                  remarks: status
+                  remarks: token
                   constraints:
                     nullable: false
-            remarks: Users
-            tableName: users
+            remarks: User
+            tableName: user

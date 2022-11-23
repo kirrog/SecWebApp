@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: kirrog
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: ID
+                  type: UUID
+                  remarks: id
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: PK_DOCRELATION
+                    nullable: false
+                  autoIncrement: ${autoIncrement}
+              - column:
+                  name: PAR_ID
+                  type: UUID
+                  remarks: fk to refer on table document
+                  constraints:
+                    - foreignKeyName: FK_PK_DOCUMENT_PAR_ID
+                    - references: DOCUMENT(ID)
+              - column:
+                  name: CHI_ID
+                  type: UUID
+                  remarks: fk to refer on table document
+                  constraints:
+                    - foreignKeyName: FK_PK_DOCUMENT_CHI_ID
+                    - references: DOCUMENT(ID)
+            remarks: DocRelation
+            tableName: docrelation
