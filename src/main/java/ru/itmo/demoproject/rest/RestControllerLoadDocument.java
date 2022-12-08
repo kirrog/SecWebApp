@@ -3,9 +3,7 @@ package ru.itmo.demoproject.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.itmo.demoproject.model.entity.dto.CopyRequestDTO;
 import ru.itmo.demoproject.model.entity.dto.LoadRequestDTO;
-import ru.itmo.demoproject.service.CopySevice;
 import ru.itmo.demoproject.service.LoaderService;
 
 @RestController

@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ListServerFilesService {
+    // collect list from types of documents table in database
     public List<FileDTO> showListOfAvailableFiles() {
         return null;
     }

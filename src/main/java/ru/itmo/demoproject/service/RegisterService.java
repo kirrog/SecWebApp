@@ -78,7 +78,10 @@ public class RegisterService {
 
     public UserRegisterResponseDTO registerUser(UserRegisterRequestDTO userRegisterRequestDTO) {
         String code = getCodeFromUrl(userRegisterRequestDTO.getUserRedirectLink());
-
+        // create drive and save -> other service
+        // get email
+        // collect info
+        // save all and return response as status
         return UserRegisterResponseDTO.builder().build();
     }
 }

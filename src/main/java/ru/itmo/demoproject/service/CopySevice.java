@@ -9,7 +9,7 @@ import ru.itmo.demoproject.model.entity.dto.ResponseBody;
 @RequiredArgsConstructor
 public class CopySevice {
 
-
+    // get file id and user id and send it to request
     public ResponseBody copyDocument(CopyRequestDTO copyRequestDTO) {
         return ResponseBody.builder().build();
     }
