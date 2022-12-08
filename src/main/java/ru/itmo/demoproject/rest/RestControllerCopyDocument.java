@@ -7,7 +7,7 @@ import ru.itmo.demoproject.model.entity.dto.CopyRequestDTO;
 import ru.itmo.demoproject.service.CopySevice;
 
 @RestController
-@RequestMapping("api/v1/copy")
+@RequestMapping("copy")
 @RequiredArgsConstructor
 public class RestControllerCopyDocument {
     private final CopySevice service;

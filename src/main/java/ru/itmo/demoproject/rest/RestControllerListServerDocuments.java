@@ -12,7 +12,7 @@ import ru.itmo.demoproject.service.ListServerFilesService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/copy")
+@RequestMapping("list")
 @RequiredArgsConstructor
 public class RestControllerListServerDocuments {
     private final ListServerFilesService service;
