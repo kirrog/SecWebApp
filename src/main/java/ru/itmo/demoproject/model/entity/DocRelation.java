@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Table(name = "docrelaltion")
+@Table(name = "docrelation")
 @Getter
 @Setter
 @ToString

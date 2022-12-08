@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
+
 @Table(name = "document")
 @Getter
 @Setter
@@ -16,8 +17,6 @@ public class DocumentEntity {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
-    @Column(name = "name", nullable = false)
-    private String name;
     @Column(name = "token", nullable = false)
     private String token;
     @ManyToOne
@@ -26,4 +25,7 @@ public class DocumentEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UserEntity owner;
+    @ManyToOne
+    @JoinColumn(name = "documenttype_id", referencedColumnName = "id", nullable = false)
+    private DocumentType documentType;
 }
