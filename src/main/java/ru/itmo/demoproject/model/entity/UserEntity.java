@@ -20,8 +20,8 @@ public class UserEntity {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
-    @Column(name = "name", nullable = false)
-    private String name;
-    @Column(name = "token", nullable = false)
-    private String token;
+    @Column(name = "email", nullable = false)
+    private String email;
+    @Column(name = "code", nullable = false)
+    private String code;
 }

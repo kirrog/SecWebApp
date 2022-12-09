@@ -10,8 +10,10 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.User;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -65,6 +67,12 @@ public class DriveQuickstart {
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
         Drive service = createDriveService();
+        User user = (User) service.about()
+                .get()
+                .setFields("user")
+                .execute()
+                .get("user");
+        System.out.println(user.getEmailAddress());
 
         FileList result = service.files().list()
                 .setPageSize(100)

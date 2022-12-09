@@ -15,7 +15,6 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,9 +53,7 @@ public class TestDriveWork {
                 .setRedirectUri(redirectUri)
                 .execute();
 
-        GoogleCredential credential =
-                new GoogleCredential()
-                        .setFromTokenResponse(response);
+        GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
         DataStore<StoredCredential> credentialDataStore = StoredCredential.getDefaultDataStore(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)));
         credentialDataStore.set("hello", new StoredCredential(credential));
 

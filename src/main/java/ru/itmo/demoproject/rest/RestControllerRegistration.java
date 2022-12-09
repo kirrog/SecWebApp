@@ -8,6 +8,9 @@ import ru.itmo.demoproject.model.entity.dto.UserRegisterRequestDTO;
 import ru.itmo.demoproject.model.entity.dto.UserRegisterResponseDTO;
 import ru.itmo.demoproject.service.RegisterService;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
 @RestController
 @RequestMapping("auth")
 @RequiredArgsConstructor
@@ -20,7 +23,7 @@ public class RestControllerRegistration {
     }
 
     @PostMapping("")
-    public @ResponseBody ResponseEntity<UserRegisterResponseDTO> setBuyOfferToTankSkinByTankTypeId(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
+    public @ResponseBody ResponseEntity<UserRegisterResponseDTO> setBuyOfferToTankSkinByTankTypeId(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) throws GeneralSecurityException, IOException {
         return ResponseEntity.ok(service.registerUser(userRegisterRequestDTO));
     }
 }
