@@ -8,5 +8,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class LoadRequestDTO {
-    private String documentID;
+    private String url;
+    private String userRedirectLink;
 }
