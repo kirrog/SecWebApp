@@ -10,7 +10,6 @@ import java.util.UUID;
 @Getter
 @ToString
 public class FileDTO {
-    private UUID id;
     private String name;
     private Long size;
 }
