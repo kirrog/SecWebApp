@@ -2,11 +2,9 @@ package ru.itmo.demoproject.model.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
+
 @Table(name = "directory")
 @Getter
 @Setter
@@ -23,4 +21,7 @@ public class DirectoryEntity {
     private String name;
     @Column(name = "token", nullable = false)
     private String token;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private UserEntity owner;
 }

@@ -115,10 +115,10 @@ public class GoogleDriveService {
         return drive.files().create(fileMetadata).setFields("id, name").execute();
     }
 
-    private void saveFolderToDatabase(File directory) {
+    private void saveFolderToDatabase(File directory, UserEntity userEntity) {
         String token = directory.getId();
         String name = directory.getName();
-        DirectoryEntity directoryEntity = DirectoryEntity.builder().token(token).name(name).build();
+        DirectoryEntity directoryEntity = DirectoryEntity.builder().token(token).name(name).owner(userEntity).build();
         directoryRepository.saveAndFlush(directoryEntity);
     }
 
@@ -131,7 +131,8 @@ public class GoogleDriveService {
                 .get("user");
         String email = user.getEmailAddress();
         File file = createAppRootGoogleFolder(drive, "SecWebAppFolder");
-        saveFolderToDatabase(file);
+        UserEntity userEntity = userRepository.findUserEntityByEmail(email);
+        saveFolderToDatabase(file, userEntity);
         return UserRegisterResponseDTO.builder().email(email).status(0).build();
     }
 }
