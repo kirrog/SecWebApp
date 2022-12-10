@@ -23,6 +23,7 @@ public class ListServerFilesService {
                     FileDTO.builder()
                             .name(documentType.getName())
                             .size(documentType.getSize())
+                            .id(documentType.getId())
                             .build()
             );
         }

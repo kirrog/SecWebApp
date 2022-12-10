@@ -12,4 +12,5 @@ import java.util.UUID;
 public class FileDTO {
     private String name;
     private Long size;
+    private UUID id;
 }
