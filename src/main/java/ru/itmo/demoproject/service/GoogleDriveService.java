@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.security.GeneralSecurityException;
 import java.util.*;
 
 @Service
@@ -35,7 +34,7 @@ public class GoogleDriveService {
     private static final List<String> SCOPES =
             Collections.singletonList(DriveScopes.DRIVE);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+//    private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final String REDIRECT_URI = "http://localhost:8888/Callback";
 
     private final UserEntityRepository userEntityRepository;
@@ -57,7 +56,8 @@ public class GoogleDriveService {
                 httpTransport, jsonFactory, clientSecrets, SCOPES
         ).setAccessType("online").setApprovalPrompt("auto").build();
 
-        String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
+        flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
+//        String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
 //        System.out.println(url);
 
         GoogleTokenResponse response = flow
@@ -122,7 +122,7 @@ public class GoogleDriveService {
         directoryEntityRepository.saveAndFlush(directoryEntity);
     }
 
-    public UserRegisterResponseDTO registerUser(UserRegisterRequestDTO userRegisterRequestDTO) throws IOException, GeneralSecurityException {
+    public UserRegisterResponseDTO registerUser(UserRegisterRequestDTO userRegisterRequestDTO) throws IOException {
         String code = getCodeFromLink(userRegisterRequestDTO.getUserRedirectLink());
         Drive drive = getDriveByCode(code);
         User user = (User) drive.about()
@@ -131,9 +131,14 @@ public class GoogleDriveService {
                 .execute()
                 .get("user");
         String email = user.getEmailAddress();
-        File file = createAppRootGoogleFolder(drive, "SecWebAppFolder");
+
         UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email);
-        saveFolderToDatabase(file, userEntity);
+        if (userEntity == null) {
+            userEntity = UserEntity.builder().id(UUID.randomUUID()).code(code).email(email).build();
+            userEntityRepository.saveAndFlush(userEntity);
+            File file = createAppRootGoogleFolder(drive, "SecWebAppFolder");
+            saveFolderToDatabase(file, userEntity);
+        }
         return UserRegisterResponseDTO.builder().email(email).status(0).build();
     }
 }
