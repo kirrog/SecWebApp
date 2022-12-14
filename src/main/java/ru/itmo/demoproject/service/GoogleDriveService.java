@@ -87,22 +87,22 @@ public class GoogleDriveService {
             userEntity.setCode(code);
             userEntityRepository.saveAndFlush(userEntity);
         }
+        driversMap.put(email, drive);
         return drive;
     }
 
-    public Drive getDriveByEmail(String email) throws IOException {
-        UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email);
-        return createDriveFromCode(userEntity.getCode());
+    public Drive getDriveByEmail(String email) {
+        return driversMap.getOrDefault(email, null);
     }
 
     public String getCodeFromLink(String url) {
-        String[] splitResult = url.substring(url.indexOf("?")+1).split("&");
+        String[] splitResult = url.substring(url.indexOf("?") + 1).split("&");
         for (String str : splitResult) {
             if ("code".equals(str.substring(0, 4))) {
                 return str.substring(5);
             }
         }
-        throw new NoSuchElementException("Can't find \"code\" in url: " + url + "   " + url.substring(url.indexOf("?")+1));
+        throw new NoSuchElementException("Can't find \"code\" in url: " + url + "   " + url.substring(url.indexOf("?") + 1));
     }
 
     public File createAppRootGoogleFolder(Drive drive, String folderName) throws IOException {
@@ -124,7 +124,6 @@ public class GoogleDriveService {
 
     public UserRegisterResponseDTO registerUser(UserRegisterRequestDTO userRegisterRequestDTO) throws IOException, GeneralSecurityException {
         String code = getCodeFromLink(userRegisterRequestDTO.getUserRedirectLink());
-        System.out.println(code);
         Drive drive = getDriveByCode(code);
         User user = (User) drive.about()
                 .get()

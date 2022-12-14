@@ -2,7 +2,6 @@ package ru.itmo.demoproject.service;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.itmo.demoproject.model.entity.DirectoryEntity;
@@ -16,6 +15,7 @@ import ru.itmo.demoproject.repository.DocumentTypeRepository;
 import ru.itmo.demoproject.repository.UserEntityRepository;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -28,23 +28,45 @@ public class GoogleLoadService {
     private final DocumentEntityRepository documentEntityRepository;
 
     // create drive or ask to reg. get shareing link, get from it document id and create document type and document entity
-    public ResponseBody loadFileToSystem(String token, String userRedirectLink) throws IOException {
-        String code = googleDriveService.getCodeFromLink(userRedirectLink);
-        Drive drive = googleDriveService.getDriveByCode(code);
-        User user = (User) drive.about()
-                .get()
-                .setFields("user")
-                .execute()
-                .get("user");
-        String email = user.getEmailAddress();
-        UserEntity userEntity = UserEntity.builder().id(UUID.randomUUID()).email(email).code(code).build();
-        userEntityRepository.saveAndFlush(userEntity);
-        File file = drive.files().get(token).execute();
-        DocumentType documentType = DocumentType.builder().id(UUID.randomUUID()).name(file.getName()).size(file.getSize()).build();
+    public ResponseBody loadFileToSystem(String token, String email) throws IOException {
+        System.out.println("Load request: token: " + token + " email: " + email);
+        Drive drive = googleDriveService.getDriveByEmail(email);
+        System.out.println("Drive toString: " + drive.toString());
+        UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email);
+        File file = drive.files()
+                .get(token)
+                .execute();
+        String name = file.getName();
+        Long size = file.getSize();
+        if (null == size) {
+            size = 0L;
+        }
+        System.out.println("Files metadata: name: " + name + " size: " + size);
+        DocumentType documentType = DocumentType.builder()
+                .id(UUID.randomUUID())
+                .name(name)
+                .size(size)
+                .build();
         documentTypeRepository.saveAndFlush(documentType);
-        File dir = drive.files().get(file.getParents().get(0)).execute();
-        DirectoryEntity directoryEntity = DirectoryEntity.builder().id(UUID.randomUUID()).token(dir.getId()).name(dir.getName()).build();
-        directoryEntityRepository.saveAndFlush(directoryEntity);
+        System.out.println("Document type: " + documentType);
+        DirectoryEntity directoryEntity = null;
+        if (null == file.getParents()){
+            System.out.println("Where are not parent directory of this file: " + file);
+        }else {
+            if (file.getParents().isEmpty()){
+                System.out.println("Where are not parent directory of this file: " + file);
+            }else {
+                File dir = drive.files().get(file.getParents().get(0)).execute();
+                System.out.println("Directory metadata: name: " + dir.getName() + " id: " + dir.getId());
+                directoryEntity = DirectoryEntity.builder()
+                        .id(UUID.randomUUID())
+                        .token(dir.getId())
+                        .name(dir.getName())
+                        .build();
+                System.out.println("Directory entity " + directoryEntity);
+                directoryEntityRepository.saveAndFlush(directoryEntity);
+            }
+        }
         DocumentEntity documentEntity = DocumentEntity.builder()
                 .id(UUID.randomUUID())
                 .documentType(documentType)
@@ -52,7 +74,8 @@ public class GoogleLoadService {
                 .token(token)
                 .parent(directoryEntity)
                 .build();
+        System.out.println("Document entity: " + documentEntity);
         documentEntityRepository.saveAndFlush(documentEntity);
-        return ResponseBody.builder().build();
+        return ResponseBody.builder().timestamp(LocalDateTime.now()).message("Files metadata: name: " + name + " size: " + size).build();
     }
 }

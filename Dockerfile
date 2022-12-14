@@ -8,5 +8,5 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:11-alpine
 COPY --from=build secapp/target/ ./
-EXPOSE 5432 8080
+EXPOSE 5432 8081
 ENTRYPOINT ["java", "-jar", "demoproject-0.0.1-SNAPSHOT.jar"]

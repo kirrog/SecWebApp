@@ -10,6 +10,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class LoadRequestDTO {
-    private String url;
-    private String userRedirectLink;
+    private String docToken;
+    private String email;
 }

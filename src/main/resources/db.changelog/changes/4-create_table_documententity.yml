@@ -15,12 +15,6 @@ databaseChangeLog:
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:
-                  name: NAME
-                  type: varchar(256)
-                  remarks: name
-                  constraints:
-                    nullable: false
-              - column:
                   name: TOKEN
                   type: varchar(256)
                   remarks: token
@@ -31,6 +25,7 @@ databaseChangeLog:
                   type: UUID
                   remarks: fk to refer on table directoryentity
                   constraints:
+                    - nullable: true
                     - foreignKeyName: FK_PK_DIRECTORYENTITY_ID
                     - references: DIRECTORYENTITY(ID)
               - column:

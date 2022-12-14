@@ -13,11 +13,8 @@ public class LoaderService {
     // get share link to file, and get the user id and make request to google loader service
     private final GoogleLoadService service;
 
-    public String getFileTokenFromLink(String link) {
-        return link.substring(32).split("/")[0];
-    }
 
     public ResponseBody loadDocument(LoadRequestDTO loadRequestDTO) throws IOException {
-        return service.loadFileToSystem(getFileTokenFromLink(loadRequestDTO.getUrl()), loadRequestDTO.getUserRedirectLink());
+        return service.loadFileToSystem(loadRequestDTO.getDocToken(), loadRequestDTO.getEmail());
     }
 }
