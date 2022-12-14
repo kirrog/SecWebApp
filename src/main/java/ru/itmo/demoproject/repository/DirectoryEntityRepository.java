@@ -8,6 +8,6 @@ import ru.itmo.demoproject.model.entity.UserEntity;
 import java.util.UUID;
 
 @Repository
-public interface DirectoryRepository extends JpaRepository<DirectoryEntity, UUID> {
+public interface DirectoryEntityRepository extends JpaRepository<DirectoryEntity, UUID> {
     DirectoryEntity findDirectoryEntityByOwner(UserEntity owner);
 }

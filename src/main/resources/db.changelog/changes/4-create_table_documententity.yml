@@ -11,7 +11,7 @@ databaseChangeLog:
                   remarks: id
                   constraints:
                     primaryKey: true
-                    primaryKeyName: PK_DOCUMENT
+                    primaryKeyName: PK_DOCUMENTENTITY
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:
@@ -27,19 +27,19 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: DIRECTORY_ID
+                  name: DIRECTORYENTITY_ID
                   type: UUID
-                  remarks: fk to refer on table directory
+                  remarks: fk to refer on table directoryentity
                   constraints:
-                    - foreignKeyName: FK_PK_DIRECTORY_ID
-                    - references: DIRECTORY(ID)
+                    - foreignKeyName: FK_PK_DIRECTORYENTITY_ID
+                    - references: DIRECTORYENTITY(ID)
               - column:
-                  name: USER_ID
+                  name: USERENTITY_ID
                   type: UUID
-                  remarks: fk to refer on table user
+                  remarks: fk to refer on table userentity
                   constraints:
-                    - foreignKeyName: FK_PK_USER_ID
-                    - references: USER(ID)
+                    - foreignKeyName: FK_PK_USERENTITY_ID
+                    - references: USERENTITY(ID)
               - column:
                   name: DOCUMENTTYPE_ID
                   type: UUID
@@ -47,5 +47,5 @@ databaseChangeLog:
                   constraints:
                     - foreignKeyName: FK_PK_DOCUMENTTYPE_ID
                     - references: DOCUMENTTYPE(ID)
-            remarks: Document
-            tableName: document
+            remarks: Documententity
+            tableName: documententity

@@ -22,6 +22,6 @@ public class DirectoryEntity {
     @Column(name = "token", nullable = false)
     private String token;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "userentity_id", referencedColumnName = "id", nullable = false)
     private UserEntity owner;
 }

@@ -11,7 +11,7 @@ databaseChangeLog:
                   remarks: id
                   constraints:
                     primaryKey: true
-                    primaryKeyName: PK_DIRECTORY
+                    primaryKeyName: PK_DIRECTORYENTITY
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:
@@ -29,9 +29,9 @@ databaseChangeLog:
               - column:
                   name: USER_ID
                   type: UUID
-                  remarks: fk to refer on table user
+                  remarks: fk to refer on table userentity
                   constraints:
-                    - foreignKeyName: FK_PK_USER_ID
-                    - references: USER(ID)
-            remarks: Directory
-            tableName: directory
+                    - foreignKeyName: FK_PK_USERENTITY_ID
+                    - references: USERENTITY(ID)
+            remarks: Directoryentity
+            tableName: directoryentity

@@ -7,6 +7,6 @@ import ru.itmo.demoproject.model.entity.UserEntity;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, UUID> {
-    UserEntity findUserByEmail(String email);
+public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
+    UserEntity findUserEntityByEmail(String email);
 }

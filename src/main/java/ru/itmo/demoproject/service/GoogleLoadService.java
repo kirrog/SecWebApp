@@ -10,10 +10,10 @@ import ru.itmo.demoproject.model.entity.DocumentEntity;
 import ru.itmo.demoproject.model.entity.DocumentType;
 import ru.itmo.demoproject.model.entity.UserEntity;
 import ru.itmo.demoproject.model.entity.dto.ResponseBody;
-import ru.itmo.demoproject.repository.DirectoryRepository;
-import ru.itmo.demoproject.repository.DocumentRepository;
+import ru.itmo.demoproject.repository.DirectoryEntityRepository;
+import ru.itmo.demoproject.repository.DocumentEntityRepository;
 import ru.itmo.demoproject.repository.DocumentTypeRepository;
-import ru.itmo.demoproject.repository.UserRepository;
+import ru.itmo.demoproject.repository.UserEntityRepository;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -22,10 +22,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GoogleLoadService {
     private final GoogleDriveService googleDriveService;
-    private final UserRepository userRepository;
-    private final DirectoryRepository directoryRepository;
+    private final UserEntityRepository userEntityRepository;
+    private final DirectoryEntityRepository directoryEntityRepository;
     private final DocumentTypeRepository documentTypeRepository;
-    private final DocumentRepository documentRepository;
+    private final DocumentEntityRepository documentEntityRepository;
 
     // create drive or ask to reg. get shareing link, get from it document id and create document type and document entity
     public ResponseBody loadFileToSystem(String token, String userRedirectLink) throws IOException {
@@ -38,13 +38,13 @@ public class GoogleLoadService {
                 .get("user");
         String email = user.getEmailAddress();
         UserEntity userEntity = UserEntity.builder().id(UUID.randomUUID()).email(email).code(code).build();
-        userRepository.saveAndFlush(userEntity);
+        userEntityRepository.saveAndFlush(userEntity);
         File file = drive.files().get(token).execute();
         DocumentType documentType = DocumentType.builder().id(UUID.randomUUID()).name(file.getName()).size(file.getSize()).build();
         documentTypeRepository.saveAndFlush(documentType);
         File dir = drive.files().get(file.getParents().get(0)).execute();
         DirectoryEntity directoryEntity = DirectoryEntity.builder().id(UUID.randomUUID()).token(dir.getId()).name(dir.getName()).build();
-        directoryRepository.saveAndFlush(directoryEntity);
+        directoryEntityRepository.saveAndFlush(directoryEntity);
         DocumentEntity documentEntity = DocumentEntity.builder()
                 .id(UUID.randomUUID())
                 .documentType(documentType)
@@ -52,7 +52,7 @@ public class GoogleLoadService {
                 .token(token)
                 .parent(directoryEntity)
                 .build();
-        documentRepository.saveAndFlush(documentEntity);
+        documentEntityRepository.saveAndFlush(documentEntity);
         return ResponseBody.builder().build();
     }
 }

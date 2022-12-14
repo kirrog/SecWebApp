@@ -18,8 +18,8 @@ import ru.itmo.demoproject.model.entity.DirectoryEntity;
 import ru.itmo.demoproject.model.entity.UserEntity;
 import ru.itmo.demoproject.model.entity.dto.UserRegisterRequestDTO;
 import ru.itmo.demoproject.model.entity.dto.UserRegisterResponseDTO;
-import ru.itmo.demoproject.repository.DirectoryRepository;
-import ru.itmo.demoproject.repository.UserRepository;
+import ru.itmo.demoproject.repository.DirectoryEntityRepository;
+import ru.itmo.demoproject.repository.UserEntityRepository;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,8 +38,8 @@ public class GoogleDriveService {
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final String REDIRECT_URI = "http://localhost:8888/Callback";
 
-    private final UserRepository userRepository;
-    private final DirectoryRepository directoryRepository;
+    private final UserEntityRepository userEntityRepository;
+    private final DirectoryEntityRepository directoryEntityRepository;
 
     private final Map<String, Drive> driversMap = new HashMap<>();
 
@@ -80,18 +80,18 @@ public class GoogleDriveService {
                 .execute()
                 .get("user");
         String email = user.getEmailAddress();
-        UserEntity userEntity = userRepository.findUserByEmail(email);
+        UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email);
         if (userEntity == null) {
-            userRepository.saveAndFlush(UserEntity.builder().id(UUID.randomUUID()).code(code).email(email).build());
+            userEntityRepository.saveAndFlush(UserEntity.builder().id(UUID.randomUUID()).code(code).email(email).build());
         } else {
             userEntity.setCode(code);
-            userRepository.saveAndFlush(userEntity);
+            userEntityRepository.saveAndFlush(userEntity);
         }
         return drive;
     }
 
     public Drive getDriveByEmail(String email) throws IOException {
-        UserEntity userEntity = userRepository.findUserByEmail(email);
+        UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email);
         return createDriveFromCode(userEntity.getCode());
     }
 
@@ -119,7 +119,7 @@ public class GoogleDriveService {
         String token = directory.getId();
         String name = directory.getName();
         DirectoryEntity directoryEntity = DirectoryEntity.builder().id(UUID.randomUUID()).token(token).name(name).owner(userEntity).build();
-        directoryRepository.saveAndFlush(directoryEntity);
+        directoryEntityRepository.saveAndFlush(directoryEntity);
     }
 
     public UserRegisterResponseDTO registerUser(UserRegisterRequestDTO userRegisterRequestDTO) throws IOException, GeneralSecurityException {
@@ -133,7 +133,7 @@ public class GoogleDriveService {
                 .get("user");
         String email = user.getEmailAddress();
         File file = createAppRootGoogleFolder(drive, "SecWebAppFolder");
-        UserEntity userEntity = userRepository.findUserByEmail(email);
+        UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email);
         saveFolderToDatabase(file, userEntity);
         return UserRegisterResponseDTO.builder().email(email).status(0).build();
     }

@@ -17,16 +17,16 @@ databaseChangeLog:
               - column:
                   name: PAR_ID
                   type: UUID
-                  remarks: fk to refer on table document
+                  remarks: fk to refer on table documententity
                   constraints:
-                    - foreignKeyName: FK_PK_DOCUMENT_PAR_ID
-                    - references: DOCUMENT(ID)
+                    - foreignKeyName: FK_PK_DOCUMENTENTITY_PAR_ID
+                    - references: DOCUMENTENTITY(ID)
               - column:
                   name: CHI_ID
                   type: UUID
-                  remarks: fk to refer on table document
+                  remarks: fk to refer on table documententity
                   constraints:
-                    - foreignKeyName: FK_PK_DOCUMENT_CHI_ID
-                    - references: DOCUMENT(ID)
+                    - foreignKeyName: FK_PK_DOCUMENTENTITY_CHI_ID
+                    - references: DOCUMENTENTITY(ID)
             remarks: DocRelation
             tableName: docrelation

@@ -8,6 +8,6 @@ import ru.itmo.demoproject.model.entity.DocumentType;
 import java.util.List;
 import java.util.UUID;
 @Repository
-public interface DocumentRepository extends JpaRepository<DocumentEntity, UUID> {
+public interface DocumentEntityRepository extends JpaRepository<DocumentEntity, UUID> {
     List<DocumentEntity> findAllByDocumentType(DocumentType documentType);
 }
