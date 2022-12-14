@@ -36,6 +36,6 @@ public class CopySevice {
         DocumentEntity documentEntity = documentEntityList.get(documentEntityList.size() - 1);
         DocumentEntity results_copied = googleCopyService.makeCopy(copyRequestDTO.getUserEmail(), documentEntity.getToken(), documentTypeGetted);
         docRelationRepository.saveAndFlush(DocRelation.builder().id(UUID.randomUUID()).par_id(documentEntity).chi_id(results_copied).build());
-        return ResponseBody.builder().build();
+        return ResponseBody.builder().message("Copy result file: " + results_copied).build();
     }
 }
