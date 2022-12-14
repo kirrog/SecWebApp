@@ -27,7 +27,7 @@ public class GoogleCopyService {
 
     // get drive by email or drive id? and copy file by it id to created after registration file
     // creation of relation entity
-    public ResponseBody makeCopy(String email, String token, DocumentType documentType) throws IOException {
+    public DocumentEntity makeCopy(String email, String token, DocumentType documentType) throws IOException {
         Drive drive = googleDriveService.getDriveByEmail(email);
         File fileMetadata = new File();
         fileMetadata.setName(drive.files().get(token).execute().getName());
@@ -36,12 +36,13 @@ public class GoogleCopyService {
         List<String> parents = List.of(directoryEntity.getToken());
         fileMetadata.setParents(parents);
         File copied = drive.files().copy(token, fileMetadata).execute();
-        documentEntity.saveAndFlush(DocumentEntity.builder()
+        DocumentEntity copied_entity = DocumentEntity.builder()
                 .parent(directoryEntity)
                 .documentType(documentType)
                 .owner(userEntity)
                 .token(copied.getId())
-                .build());
-        return ResponseBody.builder().build();
+                .build();
+        documentEntity.saveAndFlush(copied_entity);
+        return copied_entity;
     }
 }

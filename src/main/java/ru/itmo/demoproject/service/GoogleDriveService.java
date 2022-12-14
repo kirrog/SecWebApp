@@ -96,13 +96,13 @@ public class GoogleDriveService {
     }
 
     public String getCodeFromLink(String url) {
-        String[] splitResult = url.split("&");
+        String[] splitResult = url.substring(url.indexOf("?")+1).split("&");
         for (String str : splitResult) {
             if ("code".equals(str.substring(0, 4))) {
                 return str.substring(5);
             }
         }
-        throw new NoSuchElementException("Can't find \"code\" in url: " + url);
+        throw new NoSuchElementException("Can't find \"code\" in url: " + url + "   " + url.substring(url.indexOf("?")+1));
     }
 
     public File createAppRootGoogleFolder(Drive drive, String folderName) throws IOException {
@@ -123,7 +123,9 @@ public class GoogleDriveService {
     }
 
     public UserRegisterResponseDTO registerUser(UserRegisterRequestDTO userRegisterRequestDTO) throws IOException, GeneralSecurityException {
-        Drive drive = getDriveByCode(getCodeFromLink(userRegisterRequestDTO.getUserRedirectLink()));
+        String code = getCodeFromLink(userRegisterRequestDTO.getUserRedirectLink());
+        System.out.println(code);
+        Drive drive = getDriveByCode(code);
         User user = (User) drive.about()
                 .get()
                 .setFields("user")

@@ -40,5 +40,12 @@ databaseChangeLog:
                   constraints:
                     - foreignKeyName: FK_PK_USER_ID
                     - references: USER(ID)
+              - column:
+                  name: DOCUMENTTYPE_ID
+                  type: UUID
+                  remarks: fk to refer on table documenttype
+                  constraints:
+                    - foreignKeyName: FK_PK_DOCUMENTTYPE_ID
+                    - references: DOCUMENTTYPE(ID)
             remarks: Document
             tableName: document

@@ -15,11 +15,16 @@ databaseChangeLog:
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:
-                  name: USER_ID
-                  type: UUID
-                  remarks: fk to refer on table user
+                  name: NAME
+                  type: varchar(256)
+                  remarks: name
                   constraints:
-                    - foreignKeyName: FK_USER_ID
-                    - references: USER(ID)
-            remarks: Admin
-            tableName: admin
+                    nullable: false
+              - column:
+                  name: SIZE
+                  type: bigint
+                  remarks: size
+                  constraints:
+                    nullable: false
+            remarks: Documenttype
+            tableName: documenttype

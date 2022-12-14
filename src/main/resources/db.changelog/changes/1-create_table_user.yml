@@ -15,15 +15,15 @@ databaseChangeLog:
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:
-                  name: NAME
-                  type: varchar(64)
-                  remarks: name
+                  name: EMAIL
+                  type: varchar(256)
+                  remarks: email
                   constraints:
                     nullable: false
               - column:
-                  name: TOKEN
+                  name: CODE
                   type: varchar(256)
-                  remarks: token
+                  remarks: code
                   constraints:
                     nullable: false
             remarks: User

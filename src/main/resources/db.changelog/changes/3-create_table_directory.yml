@@ -26,5 +26,12 @@ databaseChangeLog:
                   remarks: token
                   constraints:
                     nullable: false
+              - column:
+                  name: USER_ID
+                  type: UUID
+                  remarks: fk to refer on table user
+                  constraints:
+                    - foreignKeyName: FK_PK_USER_ID
+                    - references: USER(ID)
             remarks: Directory
             tableName: directory

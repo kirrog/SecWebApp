@@ -20,7 +20,7 @@ public class DocumentEntity {
     @Column(name = "token", nullable = false)
     private String token;
     @ManyToOne
-    @JoinColumn(name = "directory_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "directory_id", referencedColumnName = "id")
     private DirectoryEntity parent;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)

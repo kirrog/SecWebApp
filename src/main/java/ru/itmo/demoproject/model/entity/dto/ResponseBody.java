@@ -2,11 +2,13 @@ package ru.itmo.demoproject.model.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+@Data
 @Builder
 @Getter
 @ToString

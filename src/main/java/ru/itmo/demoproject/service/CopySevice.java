@@ -1,7 +1,9 @@
 package ru.itmo.demoproject.service;
 
+import com.google.api.services.drive.model.File;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.itmo.demoproject.model.entity.DocRelation;
 import ru.itmo.demoproject.model.entity.DocumentEntity;
 import ru.itmo.demoproject.model.entity.DocumentType;
 import ru.itmo.demoproject.model.entity.dto.CopyRequestDTO;
@@ -22,6 +24,7 @@ public class CopySevice {
     private final GoogleCopyService googleCopyService;
     private final DocumentRepository documentRepository;
     private final DocumentTypeRepository documentTypeRepository;
+    private final DocRelationRepository docRelationRepository;
 
     // get file id and user id and send it to request
     public ResponseBody copyDocument(CopyRequestDTO copyRequestDTO) throws IOException {
@@ -32,6 +35,8 @@ public class CopySevice {
         DocumentType documentTypeGetted = documentType.get();
         List<DocumentEntity> documentEntityList = documentRepository.findAllByDocumentType(documentTypeGetted);
         DocumentEntity documentEntity = documentEntityList.get(documentEntityList.size() - 1);
-        return googleCopyService.makeCopy(copyRequestDTO.getUserEmail(), documentEntity.getToken(), documentTypeGetted);
+        DocumentEntity results_copied = googleCopyService.makeCopy(copyRequestDTO.getUserEmail(), documentEntity.getToken(), documentTypeGetted);
+        docRelationRepository.saveAndFlush(DocRelation.builder().par_id(documentEntity).chi_id(results_copied).build());
+        return ResponseBody.builder().build();
     }
 }
