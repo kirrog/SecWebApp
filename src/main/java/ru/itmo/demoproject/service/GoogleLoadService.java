@@ -16,6 +16,7 @@ import ru.itmo.demoproject.repository.DocumentTypeRepository;
 import ru.itmo.demoproject.repository.UserRepository;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -36,15 +37,16 @@ public class GoogleLoadService {
                 .execute()
                 .get("user");
         String email = user.getEmailAddress();
-        UserEntity userEntity = UserEntity.builder().email(email).code(code).build();
+        UserEntity userEntity = UserEntity.builder().id(UUID.randomUUID()).email(email).code(code).build();
         userRepository.saveAndFlush(userEntity);
         File file = drive.files().get(token).execute();
-        DocumentType documentType = DocumentType.builder().name(file.getName()).size(file.getSize()).build();
+        DocumentType documentType = DocumentType.builder().id(UUID.randomUUID()).name(file.getName()).size(file.getSize()).build();
         documentTypeRepository.saveAndFlush(documentType);
         File dir = drive.files().get(file.getParents().get(0)).execute();
-        DirectoryEntity directoryEntity = DirectoryEntity.builder().token(dir.getId()).name(dir.getName()).build();
+        DirectoryEntity directoryEntity = DirectoryEntity.builder().id(UUID.randomUUID()).token(dir.getId()).name(dir.getName()).build();
         directoryRepository.saveAndFlush(directoryEntity);
         DocumentEntity documentEntity = DocumentEntity.builder()
+                .id(UUID.randomUUID())
                 .documentType(documentType)
                 .owner(userEntity)
                 .token(token)

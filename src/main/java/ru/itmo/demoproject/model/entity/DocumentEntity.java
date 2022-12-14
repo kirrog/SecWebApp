@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Table(name = "document")
+@Table(name = "documententity")
 @Getter
 @Setter
 @ToString

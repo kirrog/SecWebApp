@@ -19,7 +19,7 @@ public class RestControllerRegistration {
 
     @GetMapping("")
     public @ResponseBody ResponseEntity<RegLinkDTO> setBuyOfferToTankSkinByTankTypeId() {
-        return ResponseEntity.ok(RegLinkDTO.builder().link("https://accounts.google.com/o/oauth2/auth?access_type=offline&client_id=579109481040-spko98mnhec8oask0t4uapkeflmhb9of.apps.googleusercontent.com&redirect_uri=http://localhost:8888/Callback&response_type=code&scope=https://www.googleapis.com/auth/drive").build());
+        return ResponseEntity.ok(RegLinkDTO.builder().link("https://accounts.google.com/o/oauth2/auth?access_type=online&approval_prompt=auto&client_id=579109481040-spko98mnhec8oask0t4uapkeflmhb9of.apps.googleusercontent.com&redirect_uri=http://localhost:8888/Callback&response_type=code&scope=https://www.googleapis.com/auth/drive").build());
     }
 
     @PostMapping("")

@@ -31,12 +31,13 @@ public class GoogleCopyService {
         Drive drive = googleDriveService.getDriveByEmail(email);
         File fileMetadata = new File();
         fileMetadata.setName(drive.files().get(token).execute().getName());
-        UserEntity userEntity = userRepository.findUserEntityByEmail(email);
+        UserEntity userEntity = userRepository.findUserByEmail(email);
         DirectoryEntity directoryEntity = directoryRepository.findDirectoryEntityByOwner(userEntity);
         List<String> parents = List.of(directoryEntity.getToken());
         fileMetadata.setParents(parents);
         File copied = drive.files().copy(token, fileMetadata).execute();
         DocumentEntity copied_entity = DocumentEntity.builder()
+                .id(UUID.randomUUID())
                 .parent(directoryEntity)
                 .documentType(documentType)
                 .owner(userEntity)

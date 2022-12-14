@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.UUID;
 
-@Table(name = "user")
+@Table(name = "userentity")
 @Getter
 @Setter
 @ToString

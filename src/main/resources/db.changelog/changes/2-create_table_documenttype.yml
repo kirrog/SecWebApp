@@ -11,7 +11,7 @@ databaseChangeLog:
                   remarks: id
                   constraints:
                     primaryKey: true
-                    primaryKeyName: PK_ADMIN
+                    primaryKeyName: PK_DOCUMENTTYPE
                     nullable: false
                   autoIncrement: ${autoIncrement}
               - column:

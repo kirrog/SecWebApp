@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Table(name = "directory")
+@Table(name = "directoryentity")
 @Getter
 @Setter
 @ToString
