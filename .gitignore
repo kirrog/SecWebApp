@@ -8,3 +8,5 @@ build
 /.idea/
 /gradle/
 /.apt_generated_tests/
+/src/front/node_modules/
+/src/front/package-lock.json
