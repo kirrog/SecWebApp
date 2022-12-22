@@ -17,11 +17,13 @@ import java.security.GeneralSecurityException;
 public class RestControllerRegistration {
     private final RegisterService service;
 
+    @CrossOrigin
     @GetMapping("")
     public @ResponseBody ResponseEntity<RegLinkDTO> setBuyOfferToTankSkinByTankTypeId() {
-        return ResponseEntity.ok(RegLinkDTO.builder().link("https://accounts.google.com/o/oauth2/auth?access_type=online&approval_prompt=auto&client_id=579109481040-spko98mnhec8oask0t4uapkeflmhb9of.apps.googleusercontent.com&redirect_uri=http://localhost:8888/Callback&response_type=code&scope=https://www.googleapis.com/auth/drive").build());
+        return ResponseEntity.ok(RegLinkDTO.builder().link("https://accounts.google.com/o/oauth2/auth?access_type=online&approval_prompt=auto&client_id=579109481040-spko98mnhec8oask0t4uapkeflmhb9of.apps.googleusercontent.com&redirect_uri=http://localhost:3000/Callback&response_type=code&scope=https://www.googleapis.com/auth/drive").build());
     }
 
+    @CrossOrigin
     @PostMapping("")
     public @ResponseBody ResponseEntity<UserRegisterResponseDTO> setBuyOfferToTankSkinByTankTypeId(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) throws GeneralSecurityException, IOException {
         return ResponseEntity.ok(service.registerUser(userRegisterRequestDTO));

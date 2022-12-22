@@ -9,7 +9,8 @@ function Auth() {
     useEffect(() => {
         (async () => {
             const result = await axios(`${HOST}/auth`);
-            setData(result.data);
+            console.log("Reg link: " + result.data["link"]);
+            setData(result.data["link"]);
         })();
     }, []);
 

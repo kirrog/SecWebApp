@@ -1,7 +1,7 @@
 import axios from "axios";
 import {HOST} from "./properties";
 
-const CODE = "&code="
+const CODE = "code="
 
 export async function authorize() {
     let link = window.location.href
@@ -11,17 +11,23 @@ export async function authorize() {
             link.indexOf(CODE) + CODE.length,
             link.lastIndexOf("&")
         );
-        const result = await axios({
-            method: 'post',
-            url: `${HOST}/auth-token`,
-            data: {
-                token: token
+        if (localStorage.getItem("token") === token) {
+            console.log("Logged: " + token)
+        } else {
+            localStorage.setItem("token", token)
+            const result = await axios({
+                method: 'post',
+                url: `${HOST}/auth`,
+                data: token,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (localStorage.getItem("email") === "null" && result.data.status === 0) {
+                console.log("Successful Authorization: " + result.data.email)
+                localStorage.clear()
+                localStorage.setItem("email", result.data.email)
             }
-        });
-        if (localStorage.getItem("email") === "null" && result.data.status === 0) {
-            console.log("Successful Authorization")
-            localStorage.clear()
-            localStorage.setItem("email", result.data.email)
         }
     }
 }

@@ -10,5 +10,5 @@ import lombok.ToString;
 @Getter
 @ToString
 public class UserRegisterRequestDTO {
-    private String userRedirectLink;
+    private String token;
 }

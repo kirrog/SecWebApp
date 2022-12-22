@@ -34,13 +34,14 @@ public class GoogleDriveService {
     private static final List<String> SCOPES =
             Collections.singletonList(DriveScopes.DRIVE);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-//    private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static final String REDIRECT_URI = "http://localhost:8888/Callback";
+    //    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String REDIRECT_URI = "http://localhost:3000/Callback";
 
     private final UserEntityRepository userEntityRepository;
     private final DirectoryEntityRepository directoryEntityRepository;
 
-    private final Map<String, Drive> driversMap = new HashMap<>();
+    private final Map<String, Drive> driversEmailMap = new HashMap<>();
+    private final Map<String, Drive> driversCodeMap = new HashMap<>();
 
     private Drive createDriveFromCode(String code) throws IOException {
         HttpTransport httpTransport = new NetHttpTransport();
@@ -73,40 +74,44 @@ public class GoogleDriveService {
     }
 
     public Drive getDriveByCode(String code) throws IOException {
-        Drive drive = createDriveFromCode(code);
+        Drive drive = null;
+        try {
+            drive = driversCodeMap.get(code);
+            drive.files().list().execute();
+            return drive;
+        } catch (IOException e) {
+            System.out.println("Code expired: " + code);
+        } catch (NullPointerException e) {
+            System.out.println("No element: " + code);
+        }
+        drive = createDriveFromCode(code);
         User user = (User) drive.about()
                 .get()
                 .setFields("user")
                 .execute()
                 .get("user");
         String email = user.getEmailAddress();
-        UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email);
-        if (userEntity == null) {
-            userEntityRepository.saveAndFlush(UserEntity.builder().id(UUID.randomUUID()).code(code).email(email).build());
-        } else {
-            userEntity.setCode(code);
-            userEntityRepository.saveAndFlush(userEntity);
-        }
-        driversMap.put(email, drive);
+        driversEmailMap.put(email, drive);
+        driversCodeMap.put(code, drive);
         return drive;
     }
 
     public Drive getDriveByEmail(String email) {
-        return driversMap.getOrDefault(email, null);
+        return driversEmailMap.getOrDefault(email, null);
     }
 
     public String getCodeFromLink(String url) {
         String[] splitResult = url.substring(url.indexOf("?") + 1).split("&");
         for (String str : splitResult) {
-            if ("code".equals(str.substring(0, 4))) {
-                return str.substring(5);
+            if ("code=".equals(str.substring(0, 5))) {
+                return str.substring(6);
             }
         }
         throw new NoSuchElementException("Can't find \"code\" in url: " + url + "   " + url.substring(url.indexOf("?") + 1));
     }
 
     public File createAppRootGoogleFolder(Drive drive, String folderName) throws IOException {
-
+        System.out.println("Try to create folder: " + folderName);
         File fileMetadata = new File();
 
         fileMetadata.setName(folderName);
@@ -119,11 +124,15 @@ public class GoogleDriveService {
         String token = directory.getId();
         String name = directory.getName();
         DirectoryEntity directoryEntity = DirectoryEntity.builder().id(UUID.randomUUID()).token(token).name(name).owner(userEntity).build();
+        System.out.println("Directory: " + directoryEntity);
         directoryEntityRepository.saveAndFlush(directoryEntity);
     }
 
     public UserRegisterResponseDTO registerUser(UserRegisterRequestDTO userRegisterRequestDTO) throws IOException {
-        String code = getCodeFromLink(userRegisterRequestDTO.getUserRedirectLink());
+//        System.out.println("Link to server: " + userRegisterRequestDTO.getUserRedirectLink());
+//        String code = getCodeFromLink(userRegisterRequestDTO.getUserRedirectLink());
+        String code = userRegisterRequestDTO.getToken();
+        System.out.println("Code getted: " + code);
         Drive drive = getDriveByCode(code);
         User user = (User) drive.about()
                 .get()
@@ -138,6 +147,9 @@ public class GoogleDriveService {
             userEntityRepository.saveAndFlush(userEntity);
             File file = createAppRootGoogleFolder(drive, "SecWebAppFolder");
             saveFolderToDatabase(file, userEntity);
+        }else {
+            userEntity.setCode(code);
+            userEntityRepository.saveAndFlush(userEntity);
         }
         return UserRegisterResponseDTO.builder().email(email).status(0).build();
     }

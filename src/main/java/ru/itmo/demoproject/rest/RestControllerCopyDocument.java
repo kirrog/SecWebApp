@@ -13,6 +13,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class RestControllerCopyDocument {
     private final CopySevice service;
+    @CrossOrigin
     @PostMapping("")
     public @ResponseBody ResponseEntity<ru.itmo.demoproject.model.entity.dto.ResponseBody> copyFileToUserDisk(@RequestBody CopyRequestDTO copyRequestDTO) throws IOException {
         return ResponseEntity.ok(service.copyDocument(copyRequestDTO));
