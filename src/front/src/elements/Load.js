@@ -16,7 +16,7 @@ function Load(props) {
                 method: 'post',
                 url: `${HOST}/load`,
                 data: {
-                    url: url,
+                    docToken: url,
                     email: localStorage.getItem("email")
                 }
             }).then(props.reloadTable)
