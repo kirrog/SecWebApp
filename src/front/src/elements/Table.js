@@ -8,9 +8,9 @@ function Table(props) {
             return (
                 <tr>
                     <td>{info.name}</td>
-                    <td>{info.typeId}</td>
+                    <td>{info.id}</td>
                     <td>{info.size}</td>
-                    <Copy typeId={info.typeId} toast={props.toast}/>
+                    <Copy typeId={info.id} toast={props.toast}/>
                 </tr>
             )
         }

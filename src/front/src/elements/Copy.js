@@ -13,8 +13,8 @@ function Copy(props) {
                 method: 'post',
                 url: `${HOST}/copy`,
                 data: {
-                    typeId: props.typeId,
-                    email: localStorage.getItem("email")
+                    userEmail: localStorage.getItem("email"),
+                    fileTypeID: props.typeId
                 }
             });
             showMessage(props.toast, "success", "Response code " + result.status, result.data)

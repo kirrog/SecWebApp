@@ -27,6 +27,7 @@ public class CopySevice {
 
     // get file id and user id and send it to request
     public ResponseBody copyDocument(CopyRequestDTO copyRequestDTO) throws IOException {
+        System.out.println("Get copy request: " + copyRequestDTO);
         Optional<DocumentType> documentType = documentTypeRepository.findById(UUID.fromString(copyRequestDTO.getFileTypeID()));
         if (documentType.isEmpty()) {
             throw new NoSuchElementException("Document type with UUID: " + copyRequestDTO.getFileTypeID());
