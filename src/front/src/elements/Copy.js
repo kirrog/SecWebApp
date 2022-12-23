@@ -17,7 +17,7 @@ function Copy(props) {
                     fileTypeID: props.typeId
                 }
             });
-            showMessage(props.toast, "success", "Response code " + result.status, result.data)
+            showMessage(props.toast, "success", "Response code " + result.status, result.data.message)
         }
     }
 

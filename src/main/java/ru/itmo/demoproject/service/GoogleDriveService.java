@@ -35,7 +35,7 @@ public class GoogleDriveService {
             Collections.singletonList(DriveScopes.DRIVE);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
     //    private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static final String REDIRECT_URI = "http://localhost:3000/Callback";
+    private static final String REDIRECT_URI = "http://localhost:3000/";
 
     private final UserEntityRepository userEntityRepository;
     private final DirectoryEntityRepository directoryEntityRepository;
