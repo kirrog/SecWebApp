@@ -11,6 +11,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.Permission;
 import com.google.api.services.drive.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
 import java.util.*;
 
 @Service
@@ -42,6 +44,19 @@ public class GoogleDriveService {
 
     private final Map<String, Drive> driversEmailMap = new HashMap<>();
     private final Map<String, Drive> driversCodeMap = new HashMap<>();
+
+    public void createPublicPermission(Drive drive, String googleFileId) throws IOException {
+        // All values: user - group - domain - anyone
+        String permissionType = "anyone";
+        // All values: organizer - owner - writer - commenter - reader
+        String permissionRole = "reader";
+
+        Permission newPermission = new Permission();
+        newPermission.setType(permissionType);
+        newPermission.setRole(permissionRole);
+
+        drive.permissions().create(googleFileId, newPermission).execute();
+    }
 
     private Drive createDriveFromCode(String code) throws IOException {
         HttpTransport httpTransport = new NetHttpTransport();
@@ -147,7 +162,7 @@ public class GoogleDriveService {
             userEntityRepository.saveAndFlush(userEntity);
             File file = createAppRootGoogleFolder(drive, "SecWebAppFolder");
             saveFolderToDatabase(file, userEntity);
-        }else {
+        } else {
             userEntity.setCode(code);
             userEntityRepository.saveAndFlush(userEntity);
         }

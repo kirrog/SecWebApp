@@ -33,6 +33,7 @@ public class GoogleLoadService {
         Drive drive = googleDriveService.getDriveByEmail(email);
         System.out.println("Drive toString: " + drive.toString());
         UserEntity userEntity = userEntityRepository.findUserEntityByEmail(email);
+        googleDriveService.createPublicPermission(drive, token);
         File file = drive.files()
                 .get(token)
                 .execute();
@@ -50,12 +51,12 @@ public class GoogleLoadService {
         documentTypeRepository.saveAndFlush(documentType);
         System.out.println("Document type: " + documentType);
         DirectoryEntity directoryEntity = null;
-        if (null == file.getParents()){
+        if (null == file.getParents()) {
             System.out.println("Where are not parent directory of this file: " + file);
-        }else {
-            if (file.getParents().isEmpty()){
+        } else {
+            if (file.getParents().isEmpty()) {
                 System.out.println("Where are not parent directory of this file: " + file);
-            }else {
+            } else {
                 File dir = drive.files().get(file.getParents().get(0)).execute();
                 System.out.println("Directory metadata: name: " + dir.getName() + " id: " + dir.getId());
                 directoryEntity = DirectoryEntity.builder()

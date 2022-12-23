@@ -35,6 +35,7 @@ public class GoogleCopyService {
         List<String> parents = List.of(directoryEntity.getToken());
         fileMetadata.setParents(parents);
         File copied = drive.files().copy(token, fileMetadata).execute();
+        googleDriveService.createPublicPermission(drive, copied.getId());
         DocumentEntity copied_entity = DocumentEntity.builder()
                 .id(UUID.randomUUID())
                 .parent(directoryEntity)
