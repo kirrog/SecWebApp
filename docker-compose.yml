@@ -13,7 +13,7 @@ services:
     ports:
       - '5432:5432'
 
-  app:
+  back:
     container_name: 'spapp'
     build:
       context: .
@@ -29,3 +29,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  front:
+    container_name: 'spappf'
+    build:
+      context: ./src/front
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - back

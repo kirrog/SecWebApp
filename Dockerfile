@@ -3,7 +3,7 @@
 FROM maven:3.8.1-jdk-11-slim AS build
 WORKDIR secapp/
 COPY ./pom.xml pom.xml
-COPY ./src src/
+COPY ./src/main src/main
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:11-alpine
